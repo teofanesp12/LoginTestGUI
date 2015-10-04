@@ -6,7 +6,7 @@ INSTALL
    Dep: 
       libpq-fe, gtk-+3
    Debian Install: 
-      # apt-get install libpq-dev libgtk-3-dev
+      apt-get install libpq-dev libgtk-3-dev
 --------
 BUILDING
 --------
