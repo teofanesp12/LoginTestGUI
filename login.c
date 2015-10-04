@@ -50,7 +50,6 @@ conexao(String dbName){
     if (!dbName)
         dbName = "postgres";
     conn = PQsetdbLogin(pghost, pgport, pgoptions, pgtty, dbName, login, pwd);
-    //conn = PQconnectdb("host=localhost dbname=postgres user=root password=abc123");
     if(PQstatus(conn) == CONNECTION_OK){
         printf("Conexão efetuada com sucesso.\n");
     }else{
@@ -116,9 +115,7 @@ complet_combo_db(GtkWidget *combo_box){
         {
             // Imprime o valor do campo
             gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo_box), PQgetvalue(result, i, j));
-            //printf("%s\t", PQgetvalue(result, i, j));
         }
-        //printf("\n");
     }
     return exit_conexao();
 }
@@ -146,10 +143,6 @@ login_action (GtkButton *button,
         return;
     }
     
-    /* Criamos a SQL */
-    //String SQL_checking_user;
-    //SQL_checking_user = (String) strcat("SELECT count(*) from users WHERE login=\'", usuario);
-    //g_print("%s",SQL_checking_user);
     /* Agora Abrimos A conexao */
     String dbName = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(user_data));
     if (conexao(dbName))
@@ -191,7 +184,7 @@ login_action (GtkButton *button,
     /* Verificamos a Senha do Usuario */
     result = PQexecParams(conn,
                        "SELECT count(*) FROM users WHERE login = $1 and password = $2",
-                       2,       /* one param */
+                       2,       /* 2 param */
                        NULL,    /* let the backend deduce param type */
                        paramValues,
                        NULL,    /* don't need param lengths since text */
