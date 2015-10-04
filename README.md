@@ -12,10 +12,15 @@ INSTALL
 
 BUILDING
 --------
+   Para Compilar, Abra o Terminal e execute o Comando:
+
    make
 
 RUN
 ---
+   Você Pode Usar o Comando:
+
    make run
+   Ou:
 
    ./login
