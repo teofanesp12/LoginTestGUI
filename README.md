@@ -9,18 +9,16 @@ INSTALL
    Debian Install:
 
       apt-get install libpq-dev libgtk-3-dev
-
 BUILDING
 --------
    Para Compilar, Abra o Terminal e execute o Comando:
 
-   make
-
+    make
 RUN
 ---
    Você Pode Usar o Comando:
 
-   make run
+    make run
    Ou:
 
-   ./login
+    ./login
