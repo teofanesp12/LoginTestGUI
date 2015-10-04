@@ -3,9 +3,11 @@
 
 INSTALL
 -------
-   Dep: 
+   Dep:
+
       libpq-fe, gtk-+3
-   Debian Install: 
+   Debian Install:
+
       apt-get install libpq-dev libgtk-3-dev
 
 BUILDING
@@ -15,4 +17,5 @@ BUILDING
 RUN
 ---
    make run
+
    ./login
