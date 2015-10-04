@@ -22,3 +22,8 @@ RUN
    Ou:
 
     ./login
+HELP
+----
+   Para Exibir a Ajuda, Use o Comando:
+
+    make help
