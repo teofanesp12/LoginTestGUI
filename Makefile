@@ -27,3 +27,6 @@ help:
 	@echo "clean: Limpar os arquivos criados $(FileName).o e $(FileName)"
 	@echo "help: Emitir está mensagem..."
 	@echo "--------------------------------------------------------------"
+	@echo "Antes de Compilar troque o valor das Variaveis do Arquivo"
+	@echo "         $(FileName).c"
+	@echo "Essas Variaveis estão dentro do Metodo - conexao."
