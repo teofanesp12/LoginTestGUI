@@ -27,10 +27,8 @@ TEST
    Você pode testar o Software com:
 
     apt-get install postgesql pgadmin3
-
-   Caso de ser Ubuntu:
-
-   apt:postgesql
+   
+   Sera necessario criar a tabela users, com colunas login e password
 
 HELP
 ----
