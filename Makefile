@@ -1,24 +1,29 @@
-FileC = login
+FileName = login
 CC = gcc
 pgFalgs = -I /usr/include/postgresql -lpq
 CFlags = `pkg-config --cflags --libs gtk+-3.0`
 
 
 
-all:$(FileC)
+all:$(FileName)
 
-$(FileC):$(FileC).o
-	$(CC) $(FileC).o -o $(FileC) $(CFlags) $(pgFalgs)
-	@echo "O Arquivo $(FileC) está Pronto..."
+$(FileName):$(FileName).o
+	$(CC) $(FileName).o -o $(FileName) $(CFlags) $(pgFalgs)
+	@echo "O Arquivo $(FileName) está Pronto..."
 
-$(FileC).o:$(FileC).c
-	$(CC) -c $(FileC).c $(CFlags) $(pgFalgs)
-	@echo "O Arquivo $(FileC).o está Pronto..."
+$(FileName).o:$(FileName).c
+	$(CC) -c $(FileName).c $(CFlags) $(pgFalgs)
+	@echo "O Arquivo $(FileName).o está Pronto..."
 
 clean:
-	rm $(FileC) $(FileC).o
+	rm $(FileName) $(FileName).o
 
-run:$(FileC)
-	./$(FileC)
+run:$(FileName)
+	./$(FileName)
 help:
-	@echo "Ajuda de Compilação do Arquivo $(FileC):"
+	@echo "Ajuda de Compilação do Arquivo $(FileName):"
+	@echo "-----------------------Parametros-----------------------------"
+	@echo "all ou Nada: criar um arquivo $(FileName).o e $(FileName)"
+	@echo "clean: Limpar os arquivos criados $(FileName).o e $(FileName)"
+	@echo "help: Emitir está mensagem..."
+	@echo "--------------------------------------------------------------"
