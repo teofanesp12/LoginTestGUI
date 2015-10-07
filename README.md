@@ -30,8 +30,12 @@ TEST
    
    Sera necessario criar a tabela users, com colunas login e password
 
+   No Caso de Usar o UBUNTU: `PGADMIN III`_
+
 HELP
 ----
    Para Exibir a Ajuda, Use o Comando:
 
     make help
+
+.. _PGADMIN III: apt:pgadmin3
