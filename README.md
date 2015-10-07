@@ -26,11 +26,11 @@ TEST
 ----
    Você pode testar o Software com:
 
-    apt-get install postgesql pgadmin
+    apt-get install postgesql pgadmin3
 
    Caso de ser Ubuntu:
 
-    (postgesql)[apt:postgesql]
+    [postgesql] (apt:postgesql)
 HELP
 ----
    Para Exibir a Ajuda, Use o Comando:
