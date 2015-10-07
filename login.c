@@ -22,6 +22,7 @@
 *                                                                            *
 *****************************************************************************/
 
+/* Tela de Login */
 #include <gtk/gtk.h>
 #include <libpq-fe.h>
 #include <string.h>
@@ -92,7 +93,7 @@ complet_combo_db(GtkWidget *combo_box){
                 printf("A query retornou %d linhas.\n", PQntuples(result));
                 break;
             case PGRES_FATAL_ERROR:
-                printf("Error in query: %s\n", PQresultErrorMessage(result));
+                printf("Erro na Consulta: %s\n", PQresultErrorMessage(result));
                 break;
             case PGRES_COMMAND_OK:
                 printf("%s linhas afetadas.\n", PQcmdTuples(result));
@@ -132,18 +133,16 @@ login_action (GtkButton *button,
     usuario = (String) gtk_entry_get_text( GTK_ENTRY( user_entry     ) );
     /* Verificamos se os campos Login e Senha estão preenchidos */
     if ( strcmp( usuario, "" ) == 0){
-        g_print("O Campo Usuario Não foi Preenchido...\n");
         MsgBox("O Campo Usuario Não foi Preenchido...", GTK_WINDOW(window));
         return;
     }
     
     if ( strcmp( senha, "" ) == 0){
         MsgBox("O Campo Senha Não foi Preenchido...", GTK_WINDOW(window));
-        g_print("O Campo Senha Não foi Preenchido...\n");
         return;
     }
     
-    /* Agora Abrimos A conexao */
+    /* Agora Abrimos a conexao */
     String dbName = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(user_data));
     if (conexao(dbName))
         return;
@@ -174,7 +173,6 @@ login_action (GtkButton *button,
     for(i = 0 ; i < num_records ; i++)
     {
         if (strcmp(PQgetvalue(result, i, 0),"0" ) == 0){
-            printf("Usuario Não existe...\n");
             MsgBox("Usuario Não existe...", GTK_WINDOW(window));
             exit_conexao();
             return;
@@ -184,7 +182,7 @@ login_action (GtkButton *button,
     /* Verificamos a Senha do Usuario */
     result = PQexecParams(conn,
                        "SELECT count(*) FROM users WHERE login = $1 and password = $2",
-                       2,       /* 2 param */
+                       2,       /* one param */
                        NULL,    /* let the backend deduce param type */
                        paramValues,
                        NULL,    /* don't need param lengths since text */
@@ -199,7 +197,6 @@ login_action (GtkButton *button,
     for(i = 0 ; i < num_records ; i++)
     {
         if (strcmp(PQgetvalue(result, i, 0),"0" ) == 0){
-            printf("Senha Errada...\n");
             MsgBox("Senha Errada...", GTK_WINDOW(window));
             exit_conexao();
             return;
@@ -292,6 +289,7 @@ on_response (GtkDialog *dialog,
 
 static void
 MsgBox(String txt, GtkWindow *window){
+    g_print("%s\n",txt);
     GtkWidget *dialog;
     GtkWidget *content_area;
     GtkWidget *label;
