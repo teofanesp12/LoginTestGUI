@@ -22,6 +22,15 @@ RUN
    Ou:
 
     ./login
+TEST
+----
+   Você pode testar o Software com:
+
+    apt-get install postgesql pgadmin
+
+   Caso de ser Ubuntu:
+
+    (postgesql)[apt:postgesql]
 HELP
 ----
    Para Exibir a Ajuda, Use o Comando:
