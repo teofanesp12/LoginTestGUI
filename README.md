@@ -30,7 +30,8 @@ TEST
 
    Caso de ser Ubuntu:
 
-    [postgesql] (apt:postgesql)
+   apt:postgesql
+
 HELP
 ----
    Para Exibir a Ajuda, Use o Comando:
