@@ -36,9 +36,19 @@ static GtkWidget
     *password_entry, 
     *user_entry;
 
+
+GtkInfoBar *bar;
+GtkWidget *message_label;
+
 GtkWidget* window;
 static void
 MsgBox(String txt, GtkWindow *window);
+
+GtkGrid*
+alert_create(char* msg);
+
+void
+alert(GtkMessageType message_type, char* msg, ...);
 
 int
 conexao(String dbName){
@@ -53,8 +63,10 @@ conexao(String dbName){
     conn = PQsetdbLogin(pghost, pgport, pgoptions, pgtty, dbName, login, pwd);
     if(PQstatus(conn) == CONNECTION_OK){
         printf("Conexão efetuada com sucesso.\n");
+        alert(GTK_MESSAGE_WARNING, "Conexão efetuada com sucesso.");
     }else{
         printf("Falha na conexão. Erro: %s\n", PQerrorMessage(conn));
+        alert(GTK_MESSAGE_ERROR, "Falha na conexão");
         PQfinish(conn);
         return 1;
     }
@@ -133,11 +145,13 @@ login_action (GtkButton *button,
     usuario = (String) gtk_entry_get_text( GTK_ENTRY( user_entry     ) );
     /* Verificamos se os campos Login e Senha estão preenchidos */
     if ( strcmp( usuario, "" ) == 0){
+        alert(GTK_MESSAGE_WARNING, "O Campo Usuario Não foi Preenchido...");
         MsgBox("O Campo Usuario Não foi Preenchido...", GTK_WINDOW(window));
         return;
     }
     
     if ( strcmp( senha, "" ) == 0){
+        alert(GTK_MESSAGE_WARNING, "O Campo Senha Não foi Preenchido...");
         MsgBox("O Campo Senha Não foi Preenchido...", GTK_WINDOW(window));
         return;
     }
@@ -164,6 +178,7 @@ login_action (GtkButton *button,
         printf( "SELECT Falho: %s", PQerrorMessage(conn));
         exit_conexao();
         printf("O sistema Não Foi Instado na Base: %s\n",dbName);
+        alert(GTK_MESSAGE_ERROR, "O sistema Não Foi Instado na Base.");
         return;
     }
     
@@ -174,6 +189,7 @@ login_action (GtkButton *button,
     {
         if (strcmp(PQgetvalue(result, i, 0),"0" ) == 0){
             MsgBox("Usuario Não existe...", GTK_WINDOW(window));
+            alert(GTK_MESSAGE_ERROR, "Usuario Não existe...");
             exit_conexao();
             return;
         }
@@ -182,7 +198,7 @@ login_action (GtkButton *button,
     /* Verificamos a Senha do Usuario */
     result = PQexecParams(conn,
                        "SELECT count(*) FROM users WHERE login = $1 and password = $2",
-                       2,       /* one param */
+                       2,       /* two param */
                        NULL,    /* let the backend deduce param type */
                        paramValues,
                        NULL,    /* don't need param lengths since text */
@@ -198,6 +214,7 @@ login_action (GtkButton *button,
     {
         if (strcmp(PQgetvalue(result, i, 0),"0" ) == 0){
             MsgBox("Senha Errada...", GTK_WINDOW(window));
+            alert(GTK_MESSAGE_ERROR, "Senha Errada...");
             exit_conexao();
             return;
         }
@@ -220,6 +237,8 @@ activate (GtkApplication *app, gpointer user_data){
     // Container Principal
     conteudo=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add(GTK_CONTAINER(window), conteudo);
+    
+    gtk_container_add(GTK_CONTAINER(conteudo), GTK_WIDGET(alert_create("Teste ")) );
     
     // Area Do Banco de Dados
     combo_db = gtk_combo_box_text_new ();
@@ -318,4 +337,50 @@ MsgBox(String txt, GtkWindow *window){
                     "response", 
                     G_CALLBACK (on_response), 
                     NULL);
+}
+
+
+GtkGrid*
+alert_create(char* msg){
+    GtkWidget *widget, *content_area;
+    GtkGrid *grid = GTK_GRID(gtk_grid_new());
+
+    widget = gtk_info_bar_new ();
+    bar = GTK_INFO_BAR (widget);
+
+    gtk_widget_set_no_show_all (widget, TRUE);
+    message_label = gtk_label_new (msg);
+    gtk_widget_show (message_label);
+    content_area = gtk_info_bar_get_content_area (bar);
+    gtk_container_add (GTK_CONTAINER (content_area),
+                       message_label);
+
+    gtk_info_bar_add_button (bar,
+                             "_OK",
+                             GTK_RESPONSE_OK);
+    g_signal_connect (bar,
+                      "response",
+                      G_CALLBACK (gtk_widget_hide),
+                      NULL);
+    gtk_grid_attach (GTK_GRID (grid),
+                     widget,
+                     0, 2, 1, 1);
+
+    // show an error message
+    //gtk_label_set_text (GTK_LABEL (message_label), msg);
+
+    //gtk_info_bar_set_message_type (bar, GTK_MESSAGE_ERROR);
+    //gtk_info_bar_set_message_type (bar, GTK_MESSAGE_WARNING);
+    //gtk_info_bar_set_message_type (bar, GTK_MESSAGE_QUESTION);
+    gtk_info_bar_set_message_type (bar, GTK_MESSAGE_OTHER);
+
+    gtk_widget_show (GTK_WIDGET(bar));
+    return grid;
+}
+
+void
+alert(GtkMessageType message_type, char* msg, ...){
+    gtk_label_set_text (GTK_LABEL (message_label), msg);
+    gtk_info_bar_set_message_type (bar, message_type);
+    gtk_widget_show (GTK_WIDGET(bar));
 }
