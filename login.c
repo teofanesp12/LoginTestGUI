@@ -178,7 +178,7 @@ login_action (GtkButton *button,
         printf( "SELECT Falho: %s", PQerrorMessage(conn));
         exit_conexao();
         printf("O sistema Não Foi Instado na Base: %s\n",dbName);
-        alert(GTK_MESSAGE_ERROR, "O sistema Não Foi Instado na Base.");
+        alert(GTK_MESSAGE_ERROR, g_strdup_printf( "O sistema Não Foi Instado na Base: \'%s\'.",dbName ));
         return;
     }
     
