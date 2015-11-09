@@ -320,7 +320,7 @@ MsgBox(String txt, GtkWindow *window){
     dialog = gtk_dialog_new_with_buttons ("Aviso...", 
                                         window, 
                                         GTK_DIALOG_MODAL, 
-                                        GTK_STOCK_OK, 
+                                        "_OK", 
                                         GTK_RESPONSE_OK, 
                                         NULL);
 
